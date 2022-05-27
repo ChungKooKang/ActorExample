@@ -1,7 +1,7 @@
 #include <windows.h>
-#include "D2DFramework.h"
+#include "ActorExample.h"
 
-D2DFramework myFramework;
+ActorExample myFramework;
 
 
 int WINAPI WinMain(

@@ -6,7 +6,7 @@ mX{}, mY{}, mOpacity{ 1.0f }
 {
 	LoadWICImage(filename);
 }
-Actor::Actor(D2DFramework* pFramework, LPCWSTR filename, float x, float y, float opacity = 1.0f)
+Actor::Actor(D2DFramework* pFramework, LPCWSTR filename, float x, float y, float opacity) : Actor(pFramework, filename)
 {
 	mX = x;
 	mY = y;
