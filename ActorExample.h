@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "D2DFramework.h"
 #include "Actor.h"
 
@@ -6,7 +7,7 @@ class ActorExample :
     public D2DFramework
 {
     std::unique_ptr<Actor> mspBackground;
-    std::unique_ptr<Actor> mspBug;
+    std::vector<std::unique_ptr<Actor>> mspBug;
 public :
     virtual HRESULT Initialize(HINSTANCE hInstance, LPCWSTR title = L"Actor Example", UINT width = 1024, UINT height = 768) override
     {
@@ -16,15 +17,20 @@ public :
 
         // 예제에서 초기화 필요한 것.
         mspBackground = std::make_unique<Actor>(this, L"Data/back1_1024.png", 0.0f, 0.0f);
-        mspBug = std::make_unique<Actor>(this, L"Data/bug1_1.png", 0.0f, 0.0f);
-
+        for (int i = 0; i < 20; i++)
+        {
+            mspBug.push_back(std::make_unique<Actor>(this, L"Data/bug1_1.png", i * 20.0f, 0.0f));
+        }
         return S_OK;
     }
 
     virtual void Release() override
     {
         // 예제에서 사용한 동적 메모리 해제
-        mspBug.reset();
+        for (auto& e : mspBug)
+        {
+            e.reset();
+        }
         mspBackground.reset();
 
         D2DFramework::Release();
@@ -40,7 +46,10 @@ public :
 
         // 예제에서 그릴 것들
         mspBackground->Draw();
-        mspBug->Draw();
+        for (auto& e : mspBug)
+        {
+            e->Draw();
+        }
 
 
         hr = mspRenderTarget->EndDraw();
