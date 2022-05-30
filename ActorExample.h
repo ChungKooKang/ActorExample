@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "D2DFramework.h"
 #include "Actor.h"
+#include "ComException.h"
 
 class ActorExample :
     public D2DFramework

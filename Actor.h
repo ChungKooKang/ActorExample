@@ -5,7 +5,7 @@ class Actor
 {
 protected :
 	D2DFramework* mpFramework;
-	Microsoft::WRL::ComPtr<ID2D1Bitmap> mspBitmap;
+	ID2D1Bitmap* mpBitmap;
 
 	float mX;
 	float mY;
@@ -24,8 +24,6 @@ public :
 	virtual void Draw();
 
 private :
-
-	HRESULT LoadWICImage(LPCWSTR filename);
 	void Draw(float x, float y, float opacity = 1.0f); // 외부에 쓰는 Draw를 간소화하게 이렇게 만들어서 private의 함수를 wrapping 할 수 있음.
 };
 

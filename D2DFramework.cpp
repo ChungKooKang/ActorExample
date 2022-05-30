@@ -1,8 +1,7 @@
 #include <sstream>
 #include "D2DFramework.h"
-
+#include "BitmapManager.h"
 #pragma comment (lib, "d2d1.lib")
-#pragma comment (lib, "WindowsCodecs.lib")
 
 HRESULT D2DFramework::InitWindow(HINSTANCE hInstance, LPCWSTR title, UINT width, UINT height)
 {
@@ -56,9 +55,6 @@ HRESULT D2DFramework::InitD2D(HWND hwnd)
 {
 	HRESULT hr;
 
-	hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(mspWICFactory.GetAddressOf()));
-
-	ThrowIfFailed(hr);
 
 	// 1. D2D Factory ¸¸µé±â
 
@@ -110,6 +106,8 @@ HRESULT D2DFramework::Initialize(HINSTANCE hInstance, LPCWSTR title, UINT width,
 	hr = InitD2D(mHwnd);
 	ThrowIfFailed(hr);
 
+	hr = BitmapManager::Instance().Initailize(mspRenderTarget.Get());
+	ThrowIfFailed(hr, "Failed To Initialize BitmapManager");
 
 	ShowWindow(mHwnd, SW_SHOW);
 	UpdateWindow(mHwnd);
@@ -119,9 +117,10 @@ HRESULT D2DFramework::Initialize(HINSTANCE hInstance, LPCWSTR title, UINT width,
 
 void D2DFramework::Release()
 {
+	BitmapManager::Instance().Release();
+
 	mspRenderTarget.Reset();
 	mspD2DFactory.Reset();
-	mspWICFactory.Reset();
 
 	CoUninitialize();
 }
